@@ -1,0 +1,17 @@
+07ee143d9ea179c23f0d684c83d2e99a *DESCRIPTION
+1f9779f994efe5b6df44b1145dc0bfae *NAMESPACE
+61eba09371c85bcc0af07cd72bc1c6a3 *NEWS.md
+a54ce69474e0dd170ae02182196ff8c2 *R/ace2fastq-package.R
+642abbdc5d897073c1734d8c4007ba5e *R/ace2fastq.R
+4752644081fec6c2b1a37cec0fe28d69 *README.md
+ff98e30a87bf57ea75919faa051db407 *build/vignette.rds
+330cbe1de19710c76db94d637147cab4 *inst/doc/Tutorial.R
+bd9f8df1f74e26a6b83250d68c8e823d *inst/doc/Tutorial.Rmd
+0df483d878fd19994f4317bd21eea290 *inst/doc/Tutorial.html
+2108e99854339fe5f0b9f41a7e6ebe58 *inst/sampledat/1.seq.ace
+1ce8357e4abf27b71e879b0dafa2a930 *inst/sampledat/1.seq.fastq
+c8b1558c098a31c2b41d87c83435e90d *man/ace2fastq.Rd
+2330c8db0760bd26873118508b96404d *man/ace_to_fastq.Rd
+a1c466171a050fe10034c5bef63a0fe9 *tests/testthat.R
+b2b263ac47ebbb123ff6a8cf536ec21f *tests/testthat/test_ace_to_fastq.R
+bd9f8df1f74e26a6b83250d68c8e823d *vignettes/Tutorial.Rmd
