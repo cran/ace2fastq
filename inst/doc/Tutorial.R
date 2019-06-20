@@ -12,9 +12,11 @@ library(ace2fastq)
 
 filename <- system.file("sampledat/1.seq.ace", package = "ace2fastq")
 
-out_file <- ace_to_fastq(filename)
+out_file <- ace_to_fastq(filename, target_dir = tempdir())
 
-lines <- readLines(out_file)
+lines <- readLines(out_file$path)
+
+length(lines)
 
 
 ## ----echo=FALSE----------------------------------------------------------
@@ -31,10 +33,22 @@ library(ace2fastq)
 
 filename <- system.file("sampledat/1.seq.ace", package = "ace2fastq")
 
-out_file <- ace_to_fastq(filename, name2id = FALSE)
+out_file <- ace_to_fastq(filename = filename, target_dir = tempdir(), name2id = FALSE)
 
-lines <- readLines(out_file)
+lines <- readLines(out_file$path)
 
 ## ----echo=FALSE----------------------------------------------------------
 substr(lines[1], 1, n)
+
+## ------------------------------------------------------------------------
+library(ace2fastq)
+
+filename <- system.file("sampledat/3.seq.ace", package = "ace2fastq")
+
+out_file <- ace_to_fastq(filename, target_dir = tempdir())
+
+lines <- readLines(out_file$path)
+
+length(lines)
+
 

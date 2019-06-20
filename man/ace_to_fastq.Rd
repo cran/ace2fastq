@@ -9,22 +9,24 @@ ace_to_fastq(filename, target_dir = dirname(filename), name2id = TRUE)
 \arguments{
 \item{filename}{.ace file}
 
-\item{target_dir}{target directory}
+\item{target_dir}{target directory or stdout}
 
 \item{name2id}{use the file name as primary id or not. Default is TRUE.}
 }
 \value{
-target file name
+list
 }
 \description{
-Converts a sequence in .ace file format to .fastq format.
+Converts one or more contig sequences in .ace file format to .fastq format.
+The parameter target_dir has a special value 'stdout' which will just return
+the contigs as a list.
 }
 \examples{
 
   library(ace2fastq)
   filename <- system.file("sampledat/1.seq.ace", package = "ace2fastq")
  
-  ace_to_fastq(filename, target_dir = tempdir())
+  fileout <- ace_to_fastq(filename, target_dir = tempdir())
 
 }
 \author{

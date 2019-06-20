@@ -306,30 +306,47 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(ace2fastq)</a></code></pre></div>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>The package provides a function that converts “.ace” files (ABI Sanger capillary sequence assembly files) to standard “.fastq” files. The file format is currently used in genomics to store contigs. To the best of our knowledge, no R function is available to convert this format into the more popular fastq file format. The development was motivated in the context of the analysis of 16S metagenomic data by the need to convert the .ace files with contig data for further analysis. Each file only contains one sequence and corresponding quality values.</p>
+<p>The package provides a function that converts “.ace” files (ABI Sanger capillary sequence assembly files) to standard “.fastq” files. The file format is currently used in genomics to store contigs. To the best of our knowledge, no R function is available to convert this format into the more popular fastq file format. Each file may contain one or more contig sequences and corresponding quality values.</p>
 <p>The function expects as a minimum a full path to the .ace file. By default a corresponding file with .fastq extension instead of .ace will be created. Also by default, the id line in the fastq file start after the obligatory @ with the name of the original .ace file without the extension followed by the internal original id from the .ace file.</p>
 <p>A default example follows:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">library</span>(ace2fastq)</a>
 <a class="sourceLine" id="cb2-2" title="2"></a>
 <a class="sourceLine" id="cb2-3" title="3">filename &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;sampledat/1.seq.ace&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;ace2fastq&quot;</span>)</a>
 <a class="sourceLine" id="cb2-4" title="4"></a>
-<a class="sourceLine" id="cb2-5" title="5">out_file &lt;-<span class="st"> </span><span class="kw">ace_to_fastq</span>(filename)</a>
+<a class="sourceLine" id="cb2-5" title="5">out_file &lt;-<span class="st"> </span><span class="kw">ace_to_fastq</span>(filename, <span class="dt">target_dir =</span> <span class="kw">tempdir</span>())</a>
 <a class="sourceLine" id="cb2-6" title="6"></a>
-<a class="sourceLine" id="cb2-7" title="7">lines &lt;-<span class="st"> </span><span class="kw">readLines</span>(out_file)</a></code></pre></div>
-<pre><code>#&gt; [1] &quot;@1.seq CO Contig1 1489 2 12 U&quot;
-#&gt; [1] &quot;gctccctgatgttagcggcggACGGGTGAGTAACACGTGGG&quot;
+<a class="sourceLine" id="cb2-7" title="7">lines &lt;-<span class="st"> </span><span class="kw">readLines</span>(out_file<span class="op">$</span>path)</a>
+<a class="sourceLine" id="cb2-8" title="8"></a>
+<a class="sourceLine" id="cb2-9" title="9"><span class="kw">length</span>(lines)</a>
+<a class="sourceLine" id="cb2-10" title="10"><span class="co">#&gt; [1] 4</span></a></code></pre></div>
+<pre><code>#&gt; [1] &quot;@1.seq CO Contig1 1475 8 156 U&quot;
+#&gt; [1] &quot;cgcttaaaccttccaagtctgaaacgggaaatttgatttgc&quot;
 #&gt; [1] &quot;+&quot;
-#&gt; [1] &quot;!!!!!!!!!!!!!!!!!!!!!DUNUUUUUUUNUDIIIUUUU&quot;</code></pre>
+#&gt; [1] &quot;!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!&quot;</code></pre>
 <p>A example with the alternative id pattern follows:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw">library</span>(ace2fastq)</a>
 <a class="sourceLine" id="cb4-2" title="2"></a>
 <a class="sourceLine" id="cb4-3" title="3">filename &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;sampledat/1.seq.ace&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;ace2fastq&quot;</span>)</a>
 <a class="sourceLine" id="cb4-4" title="4"></a>
-<a class="sourceLine" id="cb4-5" title="5">out_file &lt;-<span class="st"> </span><span class="kw">ace_to_fastq</span>(filename, <span class="dt">name2id =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb4-5" title="5">out_file &lt;-<span class="st"> </span><span class="kw">ace_to_fastq</span>(<span class="dt">filename =</span> filename, <span class="dt">target_dir =</span> <span class="kw">tempdir</span>(), <span class="dt">name2id =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb4-6" title="6"></a>
-<a class="sourceLine" id="cb4-7" title="7">lines &lt;-<span class="st"> </span><span class="kw">readLines</span>(out_file)</a></code></pre></div>
-<pre><code>#&gt; [1] &quot;@CO Contig1 1489 2 12 U&quot;</code></pre>
+<a class="sourceLine" id="cb4-7" title="7">lines &lt;-<span class="st"> </span><span class="kw">readLines</span>(out_file<span class="op">$</span>path)</a></code></pre></div>
+<pre><code>#&gt; [1] &quot;@CO Contig1 1475 8 156 U&quot;</code></pre>
 <p>The target directory path can also be changed.</p>
+<div id="multiple-contig-sequences" class="section level2">
+<h2>Multiple contig sequences</h2>
+<p>A default example follows with three contigs resulting in four lines:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">library</span>(ace2fastq)</a>
+<a class="sourceLine" id="cb6-2" title="2"></a>
+<a class="sourceLine" id="cb6-3" title="3">filename &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">&quot;sampledat/3.seq.ace&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;ace2fastq&quot;</span>)</a>
+<a class="sourceLine" id="cb6-4" title="4"></a>
+<a class="sourceLine" id="cb6-5" title="5">out_file &lt;-<span class="st"> </span><span class="kw">ace_to_fastq</span>(filename, <span class="dt">target_dir =</span> <span class="kw">tempdir</span>())</a>
+<a class="sourceLine" id="cb6-6" title="6"></a>
+<a class="sourceLine" id="cb6-7" title="7">lines &lt;-<span class="st"> </span><span class="kw">readLines</span>(out_file<span class="op">$</span>path)</a>
+<a class="sourceLine" id="cb6-8" title="8"></a>
+<a class="sourceLine" id="cb6-9" title="9"><span class="kw">length</span>(lines)</a>
+<a class="sourceLine" id="cb6-10" title="10"><span class="co">#&gt; [1] 12</span></a></code></pre></div>
+</div>
 </div>
 
 

@@ -5,8 +5,8 @@
 
 <!-- badges: start -->
 
-[![Project Status: Active Ã¢â‚¬â€œ The project has reached a stable,
-usable state and is being actively
+[![Project Status: Active ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Å“ The project has reached a
+stable, usable state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://www.tidyverse.org/lifecycle/#stable)
@@ -17,6 +17,9 @@ status](https://travis-ci.org/c5sire/ace2fastq.svg?branch=master)](https://travi
 [![Codecov test
 coverage](https://codecov.io/gh/c5sire/ace2fastq/branch/master/graph/badge.svg)](https://codecov.io/gh/c5sire/ace2fastq?branch=master)
 
+[![CRAN
+status](https://www.r-pkg.org/badges/version/ace2fastq)](https://CRAN.R-project.org/package=ace2fastq)
+[![Downloads](https://cranlogs.r-pkg.org/badges/ace2fastq)](https://CRAN.R-project.org/package=ace2fastq)
 <!-- badges: end -->
 
 The package provides a function that converts “.ace” files (ABI Sanger
@@ -54,9 +57,9 @@ library(ace2fastq)
 
 filename <- system.file("sampledat/1.seq.ace", package = "ace2fastq")
 
-out_file <- ace_to_fastq(filename)
+out_file <- ace_to_fastq(filename, target_dir = tempdir())
 
-lines <- readLines(out_file)
+lines <- readLines(out_file$path)
 ```
 
     #> [1] "@1.seq CO Contig1 1489 2 12 U"
